@@ -35,6 +35,14 @@ var rmCmd = &cobra.Command{
 	Use:   "rm",
 	Short: "Deletes selected command or commands",
 	Run: func(cmd *cobra.Command, args []string) {
+		// check if app directory exists
+		isAppDirExists, err := checkIfAppDirExists()
+		if err != nil || isAppDirExists == false {
+			// if app directory does not exist, call init command
+			initCmd.Run(cmd, args)
+			return
+		}
+
 		if !checkIfCommandsFileExists() {
 			fmt.Println(warningCommandsFileNotExist)
 			return
@@ -42,7 +50,7 @@ var rmCmd = &cobra.Command{
 
 		// get commands from commands file
 		var commands *Commands
-		commands, err := getCommands()
+		commands, err = getCommands()
 		if err != nil {
 			fmt.Println("get commands error:", err)
 			return

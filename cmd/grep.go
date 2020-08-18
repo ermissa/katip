@@ -60,6 +60,12 @@ var grepCmd = &cobra.Command{
 			fmt.Println("error while getting commands:", err)
 			return
 		}
+
+		if len(commands.Commands) == 0 {
+			fmt.Println(warningCommandsFileNotExist)
+			return
+		}
+
 		var concatenatedCommands, matches []string
 		for _, command := range commands.Commands {
 			concatenatedCommands = append(concatenatedCommands, command.Command+" :: "+command.Description+" :: "+command.Alias)

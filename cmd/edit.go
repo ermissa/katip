@@ -34,6 +34,14 @@ var editCmd = &cobra.Command{
 	Use:   "edit",
 	Short: "Edit your saved command",
 	Run: func(cmd *cobra.Command, args []string) {
+		// check if app directory exists
+		isAppDirExists, err := checkIfAppDirExists()
+		if err != nil || isAppDirExists == false {
+			// if app directory does not exist, call init command
+			initCmd.Run(cmd, args)
+			return
+		}
+
 		if !checkIfCommandsFileExists() {
 			fmt.Println(warningCommandsFileNotExist)
 			return
