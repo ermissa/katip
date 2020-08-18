@@ -8,6 +8,12 @@ I was struggling to memorize commands I need (like almost all programmers) and d
 
 This is a Golang/Cobra implementation of *keep*. There are some structural differences with *keep* and some commands in *keep* are still not implemented.
 
+## Installation
+
+```
+$ go get -u github.com/ermissa/katip
+```
+
 ## Usage
 
 ```
