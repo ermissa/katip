@@ -32,6 +32,14 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List your saved commands",
 	Run: func(cmd *cobra.Command, args []string) {
+		// check if app directory exists
+		isAppDirExists, err := checkIfAppDirExists()
+		if err != nil || isAppDirExists == false {
+			// if app directory does not exist, call init command
+			initCmd.Run(cmd, args)
+			return
+		}
+
 		if !checkIfCommandsFileExists() {
 			fmt.Println(warningCommandsFileNotExist)
 			return
@@ -39,12 +47,15 @@ var listCmd = &cobra.Command{
 
 		// get commands from commands file
 		var commands *Commands
-		commands, err := getCommands()
+		commands, err = getCommands()
 		if err != nil {
 			fmt.Println("get commands error:", err)
 			return
 		}
-
+		if len(commands.Commands) == 0 {
+			fmt.Println(warningCommandsFileNotExist)
+			return
+		}
 		printCommandsAsTable(commands)
 		return
 	},
