@@ -43,4 +43,4 @@ Use "katip [command] --help" for more information about a command.
 ## TODO
 
 - [ ] Integrate with GitHub gist (pull and push commands)
-- [ ] Implement run command
+- [x] Implement run command

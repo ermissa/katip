@@ -40,7 +40,8 @@ var (
 	commandsFileName                      = "commands.json"
 	warningCommandsFileNotExist           = "No commands to show. Add one by 'katip new'"
 	confirmationTextForDeleteCommand      = "Command will be removed"
-	confirmationTextForDeleteAppDirectory = "[CRITICAL] Remove everything inside ~/.katip"
+	confirmationTextForRunCommand         = "Execute?"
+	confirmationTextForDeleteAppDirectory = "[CRITICAL] Remove everything inside ~/.katip ?"
 )
 
 type Command struct {
@@ -222,4 +223,13 @@ func printCommandsAsTableWithIndexes(commands *Commands) {
 	t.AppendRows(commandRow)
 	t.Render()
 	return
+}
+
+func isIntInSlice(i int, slice []int) bool {
+	for _, a := range slice {
+		if a == i {
+			return true
+		}
+	}
+	return false
 }
