@@ -91,6 +91,7 @@ var runCmd = &cobra.Command{
 		}
 		// check if a single or multiple commands are found
 		if len(matches) > 1 {
+			// if there are more than one possible commands to execute
 			fmt.Printf("Multiple commands found. Please enter the index of command you want to execute: \n\n")
 			for _, match := range matches {
 				fmt.Println(match)
@@ -105,12 +106,11 @@ var runCmd = &cobra.Command{
 				fmt.Println("Invalid input")
 				return
 			}
-			// if cmdIndex >= 0 && cmdIndex <= len(commands.Commands)-1 {
 			if isIntInSlice(cmdIndex, cmdIndexes) {
 				// ask for confirmation to execute
 				fmt.Println("\n" + commands.Commands[cmdIndex].Command + " :: " + commands.Commands[cmdIndex].Description + " :: " + commands.Commands[cmdIndex].Alias)
 				if askForConfirmation(confirmationTextForRunCommand) {
-					out, err := exec.Command(commands.Commands[cmdIndex].Command).Output()
+					out, err := exec.Command("bash", "-c", commands.Commands[cmdIndex].Command).Output()
 					if err != nil {
 						fmt.Println("error : ", err)
 					}
@@ -123,6 +123,17 @@ var runCmd = &cobra.Command{
 			fmt.Println("There is no command with this index")
 			return
 		}
+		// if there is one possible command to execute
+		fmt.Printf("%s\n", matches[0])
+		if askForConfirmation(confirmationTextForRunCommand) {
+			out, err := exec.Command("bash", "-c", commands.Commands[cmdIndexes[0]].Command).Output()
+			if err != nil {
+				fmt.Println("error : ", err)
+			}
+			fmt.Printf("\n%s\n", out)
+			return
+		}
+		fmt.Println("Aborted")
 		return
 	},
 }

@@ -32,7 +32,7 @@ import (
 
 func askForConfirmation(confirmationText string) bool {
 	var response string
-	fmt.Println(confirmationText + " [y/N]:")
+	fmt.Printf("\n\n%s [y/N]: ", confirmationText)
 	_, err := fmt.Scanln(&response)
 	if err != nil {
 		log.Fatal(err)
